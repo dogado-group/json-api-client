@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dogado\JsonApi\Client;
 
+use Dogado\JsonApi\Client\Middleware\AuthenticationMiddlewareInterface;
 use Dogado\JsonApi\Client\Exception\ResponseException;
 use Dogado\JsonApi\Client\Response\ResponseFactoryInterface;
 use Dogado\JsonApi\Exception\BadResponseException;
@@ -23,19 +24,22 @@ class JsonApiClient
     protected StreamFactoryInterface $streamFactory;
     protected DocumentSerializerInterface $serializer;
     protected ResponseFactoryInterface $responseFactory;
+    protected ?AuthenticationMiddlewareInterface $authMiddleware;
 
     public function __construct(
         ClientInterface $httpClient,
         RequestFactoryInterface $requestFactory,
         StreamFactoryInterface $streamFactory,
         DocumentSerializerInterface $serializer,
-        ResponseFactoryInterface $responseFactory
+        ResponseFactoryInterface $responseFactory,
+        ?AuthenticationMiddlewareInterface $authMiddleware = null
     ) {
         $this->httpClient = $httpClient;
         $this->requestFactory = $requestFactory;
         $this->streamFactory = $streamFactory;
         $this->serializer = $serializer;
         $this->responseFactory = $responseFactory;
+        $this->authMiddleware = $authMiddleware;
     }
 
     /**
@@ -46,6 +50,10 @@ class JsonApiClient
      */
     public function execute(RequestInterface $request): ResponseInterface
     {
+        if (null !== $this->authMiddleware) {
+            $this->authMiddleware->authenticateRequest($request);
+        }
+
         $httpRequest = $this->requestFactory->createRequest($request->method(), $request->uri());
         foreach ($request->headers()->all() as $header => $value) {
             $httpRequest = $httpRequest->withHeader($header, $value);
