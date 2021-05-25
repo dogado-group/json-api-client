@@ -1,5 +1,12 @@
 # Abstract client side php implementation of the JSON:API protocol.
 
+[![phpunit](https://github.com/dogado-group/json-api-client/actions/workflows/phpunit.yml/badge.svg)](https://github.com/dogado-group/json-api-client/actions/workflows/phpunit.yml)
+[![Coverage Status](https://coveralls.io/repos/github/dogado-group/json-api-client/badge.svg?branch=main)](https://coveralls.io/github/dogado-group/json-api-client?branch=main)
+[![Total Downloads](https://poser.pugx.org/dogado/json-api-client/downloads)](https://packagist.org/packages/dogado/json-api-client)
+[![Latest Stable Version](https://poser.pugx.org/dogado/json-api-client/v/stable)](https://packagist.org/packages/dogado/json-api-client)
+[![Latest Unstable Version](https://poser.pugx.org/dogado/json-api-client/v/unstable.png)](https://packagist.org/packages/dogado/json-api-client)
+[![License](https://poser.pugx.org/dogado/json-api-client/license)](https://packagist.org/packages/dogado/json-api-client)
+
 ## Installation
 
 ```sh
