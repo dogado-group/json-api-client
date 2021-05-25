@@ -36,14 +36,11 @@ jobs:
         run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
       - name: Execute tests
-        run: vendor/bin/phpunit -v --coverage-text
+        run: vendor/bin/phpunit -v --coverage-text --coverage-clover build/logs/clover.xml
 
-      - name: Prepare coveralls result
+      - name: Upload coverage results to Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          composer require --dev php-coveralls/php-coveralls
-          php vendor/bin/php-coveralls
-
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          composer global require php-coveralls/php-coveralls
+          php-coveralls --coverage_clover=build/logs/clover.xml -v
