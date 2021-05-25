@@ -31,6 +31,7 @@ $client = new JsonApiClient(
     $streamFactory, // instance of Psr\Http\Message\StreamFactoryInterface
     $serializer, // instance of Dogado\JsonApi\Serializer\DocumentSerializerInterface
     $responseFactory, // instance of Dogado\JsonApi\Client\Response\ResponseFactoryInterface
+    $authMiddleware // optional instance of Dogado\JsonApi\Client\Middleware\AuthenticationMiddlewareInterface. See docs below.
 );
 
 $baseUrl = new Uri('http://example.com/api');
@@ -56,6 +57,73 @@ In this package this is called `Action`. To make things easier, we already defin
 
 When fetching resources in actions it's also very common to filter, paginate and sort. To define these options within Actions,
 there are multiple Traits you can use, defined in the same namespace as the `AbstractAction` class.
+
+### Authentication
+
+When using a JSON:API client to access a server application you will probably need to be authenticated. As this a common
+use case, this client offers native support for authentication as so called "AuthenticationMiddleware" represented by
+an interface. The client provides a native set of authentication mechanisms: OAuth2 client credentials and HTTP basic
+auth, but you can create a custom middleware yourself based on the `AuthenticationMiddlewareInterface` if that doesn't
+fit your needs or feel free to create a [pull request](https://github.com/dogado-group/json-api-client/pulls) to add
+more authentications. 
+
+```php
+use Dogado\JsonApi\Serializer\Deserializer;
+use Dogado\JsonApi\Serializer\Serializer;
+use Dogado\JsonApi\Client\JsonApiClient;
+use Dogado\JsonApi\Client\Response\ResponseFactory;
+use Dogado\JsonApi\Client\Middleware\AuthenticationMiddleware;
+
+/** @var Psr\Http\Client\ClientInterface $httpClient */
+/** @var Psr\Http\Message\RequestFactoryInterface $requestFactory */
+/** @var Psr\Http\Message\StreamFactoryInterface $streamFactory */
+/** @var Psr\Http\Message\UriFactoryInterface $uriFactory */
+
+// define which authentication you want to use (you can also leave the middleware `null` in order to use no authentication)
+$authenticationMiddleware = new AuthenticationMiddleware();
+$client = new JsonApiClient(
+    $httpClient,
+    $requestFactory,
+    $streamFactory,
+    new Serializer(),
+    new ResponseFactory(
+        new Deserializer()
+    ),
+    $authenticationMiddleware
+);
+
+###### HTTP basic auth
+use Dogado\JsonApi\Client\Model\BasicCredentials;
+$authenticationMiddleware->setBasicCredentials(new BasicCredentials('username', 'password'));
+
+###### OAuth 2 client credentials
+use Dogado\JsonApi\Client\Factory\Oauth2\CredentialFactory;
+use Dogado\JsonApi\Client\Service\OAuth2Authenticator;
+use Dogado\JsonApi\Client\Exception\Oauth2\AuthenticationException;
+
+# the Authenticator class also allows you to overload the HTTP client and the auth storage factory it uses
+$authenticator = new OAuth2Authenticator($httpClient, $requestFactory, $streamFactory, new CredentialFactory());
+try {
+    $oauth2Credentials = $authenticator->withClientCredentials($uriFactory->createUri('https://server.local/oauth/token'), 'Client-ID', 'Client-Secret');
+    $authenticationMiddleware->setOAuth2Credentials($oauth2Credentials);
+} catch (AuthenticationException $e) {
+    // escalate any errors accordingly
+}
+```
+
+#### OAuth2
+The `AuthenticationMiddleware` class requires a `Dogado\JsonApi\Client\Model\OAuth2Credentials` instance which
+contains an access token, the token type and the expiration date. You can either create an instance yourself and insert
+the required data or use the `Dogado\JsonApi\Client\Service\OAuth2Authenticator` class to generate them.
+
+Please cache the `OAuth2Credentials` instance as long as the method `isExpired` is not `true`, to prevent unnecessary
+authentication calls.
+
+As the authentication endpoint does not follow the JSON:API protocol, it also throws no JSON:API specific errors or
+exceptions. The only relevant errors are variations of the
+`Dogado\JsonApi\Client\Exception\Oauth2\AuthenticationException` class which differentiates between error message
+and code. Such an exception instance also contains the plain response as `Psr\Http\Message\ResponseInterface` to have
+more context to an error.
 
 ## Credits
 
