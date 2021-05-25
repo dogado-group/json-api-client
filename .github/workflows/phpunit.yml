@@ -38,6 +38,11 @@ jobs:
       - name: Execute tests
         run: vendor/bin/phpunit -v --coverage-text
 
+      - name: Prepare coveralls result
+        run: |
+          composer require php-coveralls/php-coveralls
+          php vendor/bin/php-coveralls
+
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
