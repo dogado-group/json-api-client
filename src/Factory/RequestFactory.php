@@ -8,7 +8,6 @@ use Dogado\JsonApi\Exception\JsonApi\BadRequestException;
 use Dogado\JsonApi\Model\Document\DocumentInterface;
 use Dogado\JsonApi\Model\Request\Request;
 use Dogado\JsonApi\Model\Request\RequestInterface;
-use Illuminate\Support\Str;
 use Psr\Http\Message\UriInterface;
 
 class RequestFactory implements RequestFactoryInterface
@@ -102,7 +101,7 @@ class RequestFactory implements RequestFactoryInterface
         /* The prefix before any restful uri paths (e.g `v1`) */
         $apiBasePrefix = null;
         /* The prefix before the requested resource type (e.g `user/12345/`) */
-        $pathPrefix = trim(Str::before($path->getPath(), $resourceType), '/');
+        $pathPrefix = trim(strstr($path->getPath(), $resourceType, true) ?: $path->getPath(), '/');
         if ('' !== $uri->getPath()) {
             $apiBasePrefix = trim($uri->getPath(), '/');
             if (!empty($apiBasePrefix)) {
