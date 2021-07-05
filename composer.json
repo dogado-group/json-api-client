@@ -12,7 +12,6 @@
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "dogado/json-api-common": "^1.0",
-        "illuminate/support": "^7.0 || ^8.0",
         "psr/http-factory": "^1.0",
         "psr/http-client": "^1.0"
     },
