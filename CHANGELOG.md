@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.1 - 2021-07-XX
+## v1.0.1 - 2021-07-05
 
 - remove `illuminate/support` as dependency
 
