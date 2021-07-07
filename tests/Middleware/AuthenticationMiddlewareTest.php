@@ -31,9 +31,9 @@ class AuthenticationMiddlewareTest extends TestCase
     public function testOAuth2(): void
     {
         $oauth2Credentials = new OAuth2Credentials(
-            $this->faker()->slug,
-            $this->faker()->md5,
-            $this->faker()->dateTime
+            $this->faker()->slug(),
+            $this->faker()->md5(),
+            $this->faker()->dateTime()
         );
 
         $this->authMiddleware->setOAuth2Credentials($oauth2Credentials);
@@ -47,8 +47,8 @@ class AuthenticationMiddlewareTest extends TestCase
     public function testBasic(): void
     {
         $basicCredentials = new BasicCredentials(
-            $this->faker()->userName,
-            $this->faker()->password,
+            $this->faker()->userName(),
+            $this->faker()->password(),
         );
 
         $this->authMiddleware->setBasicCredentials($basicCredentials);

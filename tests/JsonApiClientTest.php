@@ -50,7 +50,7 @@ class JsonApiClientTest extends TestCase
     public function testExecute(): void
     {
         $request = $this->createMock(RequestInterface::class);
-        $method = $this->faker()->slug;
+        $method = $this->faker()->slug();
 
         $request->expects(self::once())->method('method')->willReturn($method);
         $uri = $this->createMock(UriInterface::class);
@@ -61,8 +61,8 @@ class JsonApiClientTest extends TestCase
         $httpRequest = $this->createMock(\Psr\Http\Message\RequestInterface::class);
         $this->requestFactory->method('createRequest')->with($method, $uri)->willReturn($httpRequest);
 
-        $headerKey = $this->faker()->slug;
-        $headerValue = $this->faker()->slug;
+        $headerKey = $this->faker()->slug();
+        $headerValue = $this->faker()->slug();
         $header = new KeyValueCollection([$headerKey => $headerValue]);
         $request->expects(self::once())->method('headers')->willReturn($header);
 
@@ -71,7 +71,7 @@ class JsonApiClientTest extends TestCase
         $document = $this->createMock(DocumentInterface::class);
         $request->expects(self::atLeastOnce())->method('document')->willReturn($document);
 
-        $data = [$this->faker()->text];
+        $data = [$this->faker()->text()];
         $this->serializer->method('serializeDocument')->with($document)->willReturn($data);
 
         $stream = $this->createMock(StreamInterface::class);
@@ -100,7 +100,7 @@ class JsonApiClientTest extends TestCase
     public function testFailedSerialization(): void
     {
         $request = $this->createMock(RequestInterface::class);
-        $method = $this->faker()->slug;
+        $method = $this->faker()->slug();
 
         $request->expects(self::once())->method('method')->willReturn($method);
         $uri = $this->createMock(UriInterface::class);
@@ -109,8 +109,8 @@ class JsonApiClientTest extends TestCase
         $httpRequest = $this->createMock(\Psr\Http\Message\RequestInterface::class);
         $this->requestFactory->method('createRequest')->with($method, $uri)->willReturn($httpRequest);
 
-        $headerKey = $this->faker()->slug;
-        $headerValue = $this->faker()->slug;
+        $headerKey = $this->faker()->slug();
+        $headerValue = $this->faker()->slug();
         $header = new KeyValueCollection([$headerKey => $headerValue]);
         $request->expects(self::once())->method('headers')->willReturn($header);
 

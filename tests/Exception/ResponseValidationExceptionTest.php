@@ -35,7 +35,7 @@ class ResponseValidationExceptionTest extends TestCase
             ResponseValidationException::CODE_RESOURCE_MISSING
         ];
         yield [
-            ResponseValidationException::typeMismatch($response, $faker->slug, $faker->slug, $faker->numberBetween()),
+            ResponseValidationException::typeMismatch($response, $faker->slug(), $faker->slug(), $faker->numberBetween()),
             ResponseValidationException::CODE_TYPE_MISMATCH
         ];
         yield [
