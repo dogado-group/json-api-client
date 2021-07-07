@@ -15,11 +15,8 @@ use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 
 class ResponseFactory implements ResponseFactoryInterface
 {
-    protected DocumentDeserializerInterface $deserializer;
-
-    public function __construct(DocumentDeserializerInterface $deserializer)
+    public function __construct(protected DocumentDeserializerInterface $deserializer)
     {
-        $this->deserializer = $deserializer;
     }
 
     /**
@@ -37,7 +34,7 @@ class ResponseFactory implements ResponseFactoryInterface
         if ($psrResponse->getStatusCode() >= 400) {
             try {
                 $responseDocument = $this->createResponseBody($responseBody);
-            } catch (BadResponseException $e) {
+            } catch (BadResponseException) {
                 $responseDocument = null;
             }
 

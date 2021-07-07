@@ -17,11 +17,6 @@ class ResponseException extends Exception
 {
     public const CODE_UNSUCCESSFUL_HTTP_STATUS = 100;
 
-    protected RequestInterface $request;
-    protected PsrRequestInterface $psrRequest;
-    protected ResponseInterface $response;
-    protected PsrResponseInterface $psrResponse;
-
     public static function unsuccessfulHttpStatusReturned(
         RequestInterface $request,
         PsrRequestInterface $psrRequest,
@@ -41,10 +36,10 @@ class ResponseException extends Exception
     public function __construct(
         string $message,
         int $code,
-        RequestInterface $request,
-        PsrRequestInterface $psrRequest,
-        ResponseInterface $response,
-        PsrResponseInterface $psrResponse,
+        protected RequestInterface $request,
+        protected PsrRequestInterface $psrRequest,
+        protected ResponseInterface $response,
+        protected PsrResponseInterface $psrResponse,
         Throwable $previous = null
     ) {
         $document = $response->document();
@@ -55,10 +50,6 @@ class ResponseException extends Exception
         }
 
         parent::__construct($message, $code, $previous);
-        $this->request = $request;
-        $this->psrRequest = $psrRequest;
-        $this->response = $response;
-        $this->psrResponse = $psrResponse;
     }
 
     public function request(): RequestInterface

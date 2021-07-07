@@ -8,15 +8,11 @@ use DateTimeInterface;
 
 class OAuth2Credentials
 {
-    public string $tokenType;
-    public string $accessToken;
-    public ?DateTimeInterface $expiresAt;
-
-    public function __construct(string $tokenType, string $accessToken, DateTimeInterface $expiresAt = null)
-    {
-        $this->tokenType = $tokenType;
-        $this->accessToken = $accessToken;
-        $this->expiresAt = $expiresAt;
+    public function __construct(
+        public string $tokenType,
+        public string $accessToken,
+        public ?DateTimeInterface $expiresAt = null
+    ) {
     }
 
     public function isExpired(): bool

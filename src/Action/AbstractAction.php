@@ -14,24 +14,15 @@ use Throwable;
 
 abstract class AbstractAction implements ActionInterface
 {
-    protected JsonApiClient $client;
-    protected RequestFactoryInterface $requestFactory;
-    protected UriFactoryInterface $uriFactory;
-    protected ResponseValidator $responseValidator;
-
     /** @var callable[] */
     protected array $preExecutionCallStack = [];
 
     public function __construct(
-        JsonApiClient $client,
-        RequestFactoryInterface $requestFactory,
-        UriFactoryInterface $uriFactory,
-        ResponseValidator $responseValidator
+        protected JsonApiClient $client,
+        protected RequestFactoryInterface $requestFactory,
+        protected UriFactoryInterface $uriFactory,
+        protected ResponseValidator $responseValidator
     ) {
-        $this->client = $client;
-        $this->requestFactory = $requestFactory;
-        $this->uriFactory = $uriFactory;
-        $this->responseValidator = $responseValidator;
     }
 
     abstract public function execute(): ResponseInterface;

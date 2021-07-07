@@ -12,10 +12,8 @@ trait SortsResource
 
     /**
      * @param string|array $sortOrKey
-     * @param mixed $direction
-     * @return $this
      */
-    public function sort($sortOrKey, $direction = null): self
+    public function sort(mixed $sortOrKey, mixed $direction = null): self
     {
         $this->beforeSend('sort', function (RequestInterface $request) {
             $this->applySorting($request);

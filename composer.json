@@ -9,7 +9,7 @@
     "license": "MIT",
     "homepage": "https://github.com/dogado-group/json-api-client",
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "ext-json": "*",
         "dogado/json-api-common": "^1.0",
         "psr/http-factory": "^1.0",

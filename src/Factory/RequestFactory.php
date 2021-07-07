@@ -12,11 +12,8 @@ use Psr\Http\Message\UriInterface;
 
 class RequestFactory implements RequestFactoryInterface
 {
-    protected UriInterface $baseUrl;
-
-    public function __construct(UriInterface $baseUrl)
+    public function __construct(protected UriInterface $baseUrl)
     {
-        $this->baseUrl = $baseUrl;
     }
 
     /**

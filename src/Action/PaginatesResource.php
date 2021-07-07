@@ -12,9 +12,8 @@ trait PaginatesResource
 
     /**
      * @param string|array $paginationOrKey
-     * @param mixed $value
      */
-    public function pagination($paginationOrKey, $value = null): self
+    public function pagination(mixed $paginationOrKey, mixed $value = null): self
     {
         $this->beforeSend('paginate', function (RequestInterface $request) {
             $this->applyPagination($request);

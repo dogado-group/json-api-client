@@ -12,10 +12,8 @@ trait FiltersResource
 
     /**
      * @param string|array $filterOrKey
-     * @param mixed $value
-     * @return $this
      */
-    public function filter($filterOrKey, $value = null): self
+    public function filter(mixed $filterOrKey, mixed $value = null): self
     {
         $this->beforeSend('filter', function (RequestInterface $request) {
             $this->applyFilter($request);
