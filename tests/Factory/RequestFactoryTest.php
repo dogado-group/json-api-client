@@ -14,7 +14,7 @@ class RequestFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->baseUrl = 'http://' . $this->faker()->domainName . '/' . $this->faker()->slug;
+        $this->baseUrl = 'http://' . $this->faker()->domainName() . '/' . $this->faker()->slug();
         $this->requestFactory = new RequestFactory(new Uri($this->baseUrl));
     }
 
@@ -26,8 +26,8 @@ class RequestFactoryTest extends TestCase
          *     [<expected values>]
          * ]
          */
-        $type = $this->faker()->word;
-        $relationshipType = $this->faker()->word;
+        $type = $this->faker()->word();
+        $relationshipType = $this->faker()->word();
         $id = $this->faker()->randomNumber(5);
         return [
             [ #0
@@ -176,15 +176,15 @@ class RequestFactoryTest extends TestCase
 
     public function testWithUserInfo(): void
     {
-        $this->baseUrl = 'http://' . $this->faker()->domainName . '/' . $this->faker()->slug . '?foo2=bar2';
+        $this->baseUrl = 'http://' . $this->faker()->domainName() . '/' . $this->faker()->slug() . '?foo2=bar2';
         $this->requestFactory = new RequestFactory(new Uri($this->baseUrl));
 
-        $user = $this->faker()->userName;
-        $pass = $this->faker()->userName;
+        $user = $this->faker()->userName();
+        $pass = $this->faker()->userName();
 
-        $type = $this->faker()->slug;
+        $type = $this->faker()->slug();
         $id = (string) $this->faker()->numberBetween();
-        $uri = sprintf('http://%s:%s@%s/%s/%s?foo=bar', $user, $pass, $this->faker()->domainName, $type, $id);
+        $uri = sprintf('http://%s:%s@%s/%s/%s?foo=bar', $user, $pass, $this->faker()->domainName(), $type, $id);
         $request = $this->requestFactory->createGetRequest(new Uri($uri), $type);
         $this->assertEquals($type, $request->type());
         $this->assertEquals($id, $request->id());

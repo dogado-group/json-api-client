@@ -35,7 +35,7 @@ class ResponseFactoryTest extends TestCase
         $stream = $this->createMock(StreamInterface::class);
         $psrResponse->expects(self::exactly(2))->method('getBody')->willReturn($stream);
 
-        $responseBody = [$this->faker()->text];
+        $responseBody = [$this->faker()->text()];
         $responseBodyEncoded = json_encode($responseBody);
         $stream->expects(self::once())->method('getContents')->willReturn($responseBodyEncoded);
         $stream->expects(self::once())->method('rewind');
@@ -43,7 +43,7 @@ class ResponseFactoryTest extends TestCase
         $httpStatus = 200;
         $psrResponse->method('getStatusCode')->willReturn($httpStatus);
         $headers = [
-            $this->faker()->word => $this->faker()->word,
+            $this->faker()->word() => $this->faker()->word(),
         ];
         $psrResponse->method('getHeaders')->willReturn($headers);
 
@@ -101,7 +101,7 @@ class ResponseFactoryTest extends TestCase
         $psrResponse->expects(self::exactly(2))->method('getBody')->willReturn($stream);
 
         $headers = [
-            $this->faker()->word => $this->faker()->word,
+            $this->faker()->word() => $this->faker()->word(),
         ];
         $psrResponse->method('getHeaders')->willReturn($headers);
 
@@ -139,11 +139,11 @@ class ResponseFactoryTest extends TestCase
         $psrResponse->expects(self::exactly(2))->method('getBody')->willReturn($stream);
 
         $headers = [
-            $this->faker()->word => $this->faker()->word,
+            $this->faker()->word() => $this->faker()->word(),
         ];
         $psrResponse->method('getHeaders')->willReturn($headers);
 
-        $responseBody = [$this->faker()->text];
+        $responseBody = [$this->faker()->text()];
         $responseBodyEncoded = json_encode($responseBody);
         $stream->expects(self::once())->method('getContents')->willReturn($responseBodyEncoded);
         $stream->expects(self::once())->method('rewind');

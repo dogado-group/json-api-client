@@ -20,8 +20,8 @@ class CredentialFactoryTest extends TestCase
         $response->method('getBody')->willReturn($stream);
 
         $responseData = [
-            'token_type' => $this->faker()->slug,
-            'access_token' => $this->faker()->md5,
+            'token_type' => $this->faker()->slug(),
+            'access_token' => $this->faker()->md5(),
             'expires_in' => $this->faker()->numberBetween(),
         ];
         $stream->method('getContents')->willReturn(json_encode($responseData));
@@ -43,8 +43,8 @@ class CredentialFactoryTest extends TestCase
         $response->method('getBody')->willReturn($stream);
 
         $responseData = [
-            'token_type' => $this->faker()->slug,
-            'access_token' => $this->faker()->md5,
+            'token_type' => $this->faker()->slug(),
+            'access_token' => $this->faker()->md5(),
             'expires_in' => -1 * $this->faker()->numberBetween(),
         ];
         $stream->method('getContents')->willReturn(json_encode($responseData));
@@ -88,7 +88,7 @@ class CredentialFactoryTest extends TestCase
         $stream = $this->createMock(StreamInterface::class);
         $response->method('getBody')->willReturn($stream);
 
-        $stream->method('getContents')->willReturn($this->faker()->text);
+        $stream->method('getContents')->willReturn($this->faker()->text());
 
         $this->expectExceptionObject(AuthenticationException::unableToDecodeResponse()->setResponse($response));
         (new CredentialFactory())->fromAuthorityResponse($response);
@@ -100,7 +100,7 @@ class CredentialFactoryTest extends TestCase
         $stream = $this->createMock(StreamInterface::class);
         $response->method('getBody')->willReturn($stream);
 
-        $errorSlug = $this->faker()->slug;
+        $errorSlug = $this->faker()->slug();
         $stream->method('getContents')->willReturn(json_encode(['error' => $errorSlug]));
 
         $this->expectExceptionObject(AuthenticationException::failed($errorSlug)->setResponse($response));
