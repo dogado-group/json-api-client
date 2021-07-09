@@ -28,8 +28,8 @@ class Auth2CredentialsTest extends TestCase
     private function createModel(?DateTimeInterface $dateTime): OAuth2Credentials
     {
         return new OAuth2Credentials(
-            $this->faker()->slug,
-            $this->faker()->md5,
+            $this->faker()->slug(),
+            $this->faker()->md5(),
             $dateTime
         );
     }

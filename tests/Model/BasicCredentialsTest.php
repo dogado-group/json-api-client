@@ -9,8 +9,8 @@ class BasicCredentialsTest extends TestCase
 {
     public function test(): void
     {
-        $username = $this->faker()->userName;
-        $password = $this->faker()->password;
+        $username = $this->faker()->userName();
+        $password = $this->faker()->password();
 
         $credentials = new BasicCredentials($username, $password);
         $this->assertEquals($username, $credentials->username);

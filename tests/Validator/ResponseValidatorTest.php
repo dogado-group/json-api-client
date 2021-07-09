@@ -51,7 +51,7 @@ class ResponseValidatorTest extends TestCase
     public function testAssertDataNotEmpty(): void
     {
         $this->responseValidator->assertDataNotEmpty($this->createResponse(new Document([new Resource(
-            $this->faker()->slug
+            $this->faker()->slug()
         )])));
         $this->assertTrue(true);
     }
@@ -66,7 +66,7 @@ class ResponseValidatorTest extends TestCase
 
     public function testAssertResourcesMatchTypeAndContainIds(): void
     {
-        $type = $this->faker()->slug;
+        $type = $this->faker()->slug();
         $response = $this->createResponse(new Document([new Resource(
             $type,
             (string) $this->faker()->numberBetween()
@@ -77,8 +77,8 @@ class ResponseValidatorTest extends TestCase
 
     public function testAssertResourcesMatchTypeAndContainIdsThrowsExceptionDueToType(): void
     {
-        $expectedType = $this->faker()->slug;
-        $actualType = $this->faker()->slug;
+        $expectedType = $this->faker()->slug();
+        $actualType = $this->faker()->slug();
         $response = $this->createResponse(new Document([new Resource(
             $actualType,
             (string) $this->faker()->numberBetween()
@@ -91,7 +91,7 @@ class ResponseValidatorTest extends TestCase
 
     public function testAssertResourcesMatchTypeAndContainIdsThrowsExceptionDueToId(): void
     {
-        $expectedType = $this->faker()->slug;
+        $expectedType = $this->faker()->slug();
         $response = $this->createResponse(new Document([new Resource(
             $expectedType
         )]));
@@ -103,7 +103,7 @@ class ResponseValidatorTest extends TestCase
 
     public function testAssertScalarResultWithId(): void
     {
-        $type = $this->faker()->slug;
+        $type = $this->faker()->slug();
         $response = $this->createResponse(new Document([new Resource(
             $type,
             (string) $this->faker()->numberBetween()
@@ -114,7 +114,7 @@ class ResponseValidatorTest extends TestCase
 
     public function testAssertScalarResultWithIdThrowsException(): void
     {
-        $type = $this->faker()->slug;
+        $type = $this->faker()->slug();
         $response = $this->createResponse(new Document([
             new Resource($type, (string) $this->faker()->numberBetween()),
             new Resource($type, (string) $this->faker()->numberBetween()),

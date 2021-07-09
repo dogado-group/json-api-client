@@ -46,9 +46,9 @@ class ActionTraitTest extends TestCase
         $this->requestFactory->expects(self::once())->method('createGetRequest')->with($uri)
             ->willReturn($request);
 
-        $filterKey = $this->faker()->slug;
-        $filterValue = $this->faker()->word;
-        if ($this->faker()->boolean) {
+        $filterKey = $this->faker()->slug();
+        $filterValue = $this->faker()->word();
+        if ($this->faker()->boolean()) {
             $this->request->filter($filterKey, $filterValue);
         } else {
             $this->request->filter([$filterKey => $filterValue]);
@@ -58,9 +58,9 @@ class ActionTraitTest extends TestCase
         $request->expects(self::once())->method('filter')->willReturn($filterCollection);
         $filterCollection->expects(self::once())->method('set')->with($filterKey, $filterValue);
 
-        $paginationKey = $this->faker()->slug;
+        $paginationKey = $this->faker()->slug();
         $paginationValue = $this->faker()->numberBetween();
-        if ($this->faker()->boolean) {
+        if ($this->faker()->boolean()) {
             $this->request->pagination($paginationKey, $paginationValue);
         } else {
             $this->request->pagination([$paginationKey => $paginationValue]);
@@ -69,9 +69,9 @@ class ActionTraitTest extends TestCase
         $request->expects(self::once())->method('pagination')->willReturn($paginationCollection);
         $paginationCollection->expects(self::once())->method('set')->with($paginationKey, $paginationValue);
 
-        $sortField = $this->faker()->slug;
-        $sortDirection = $this->faker()->slug;
-        if ($this->faker()->boolean) {
+        $sortField = $this->faker()->slug();
+        $sortDirection = $this->faker()->slug();
+        if ($this->faker()->boolean()) {
             $this->request->sort($sortField, $sortDirection);
         } else {
             $this->request->sort([$sortField => $sortDirection]);

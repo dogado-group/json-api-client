@@ -41,8 +41,8 @@ class OAuth2AuthenticatorTest extends TestCase
     public function test(): void
     {
         $endpointUri = $this->createMock(UriInterface::class);
-        $clientId = $this->faker()->uuid;
-        $clientSecret = $this->faker()->password;
+        $clientId = $this->faker()->uuid();
+        $clientSecret = $this->faker()->password();
 
         $payload = [
             'grant_type' => 'client_credentials',
@@ -78,7 +78,7 @@ class OAuth2AuthenticatorTest extends TestCase
     public function testInvalidPayload(): void
     {
         $endpointUri = $this->createMock(UriInterface::class);
-        $clientId = $this->faker()->uuid;
+        $clientId = $this->faker()->uuid();
         $clientSecret = utf8_decode('äöä');
 
         json_encode($clientSecret);
@@ -89,8 +89,8 @@ class OAuth2AuthenticatorTest extends TestCase
     public function testHttpError(): void
     {
         $endpointUri = $this->createMock(UriInterface::class);
-        $clientId = $this->faker()->uuid;
-        $clientSecret = $this->faker()->password;
+        $clientId = $this->faker()->uuid();
+        $clientSecret = $this->faker()->password();
 
         $payload = [
             'grant_type' => 'client_credentials',
