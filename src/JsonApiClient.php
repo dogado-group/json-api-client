@@ -19,27 +19,14 @@ use Psr\Http\Message\StreamFactoryInterface;
 
 class JsonApiClient
 {
-    protected ClientInterface $httpClient;
-    protected RequestFactoryInterface $requestFactory;
-    protected StreamFactoryInterface $streamFactory;
-    protected DocumentSerializerInterface $serializer;
-    protected ResponseFactoryInterface $responseFactory;
-    protected ?AuthenticationMiddlewareInterface $authMiddleware;
-
     public function __construct(
-        ClientInterface $httpClient,
-        RequestFactoryInterface $requestFactory,
-        StreamFactoryInterface $streamFactory,
-        DocumentSerializerInterface $serializer,
-        ResponseFactoryInterface $responseFactory,
-        ?AuthenticationMiddlewareInterface $authMiddleware = null
+        protected ClientInterface $httpClient,
+        protected RequestFactoryInterface $requestFactory,
+        protected StreamFactoryInterface $streamFactory,
+        protected DocumentSerializerInterface $serializer,
+        protected ResponseFactoryInterface $responseFactory,
+        protected ?AuthenticationMiddlewareInterface $authMiddleware = null
     ) {
-        $this->httpClient = $httpClient;
-        $this->requestFactory = $requestFactory;
-        $this->streamFactory = $streamFactory;
-        $this->serializer = $serializer;
-        $this->responseFactory = $responseFactory;
-        $this->authMiddleware = $authMiddleware;
     }
 
     /**

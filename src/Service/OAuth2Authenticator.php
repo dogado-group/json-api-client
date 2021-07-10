@@ -15,21 +15,12 @@ use Throwable;
 
 class OAuth2Authenticator
 {
-    protected ClientInterface $httpClient;
-    protected RequestFactoryInterface $requestFactory;
-    protected StreamFactoryInterface $streamFactory;
-    protected CredentialFactoryInterface $authStorageFactory;
-
     public function __construct(
-        ClientInterface $httpClient,
-        RequestFactoryInterface $requestFactory,
-        StreamFactoryInterface $streamFactory,
-        CredentialFactoryInterface $authStorageFactory
+        protected ClientInterface $httpClient,
+        protected RequestFactoryInterface $requestFactory,
+        protected StreamFactoryInterface $streamFactory,
+        protected CredentialFactoryInterface $authStorageFactory
     ) {
-        $this->httpClient = $httpClient;
-        $this->requestFactory = $requestFactory;
-        $this->streamFactory = $streamFactory;
-        $this->authStorageFactory = $authStorageFactory;
     }
 
     /**

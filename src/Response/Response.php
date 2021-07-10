@@ -14,12 +14,10 @@ class Response implements ResponseInterface
 {
     private int $status;
     private KeyValueCollectionInterface $headers;
-    private ?DocumentInterface $document;
-    protected ?PsrResponseInterface $psrResponse;
 
     public function __construct(
-        PsrResponseInterface $psrResponse,
-        ?DocumentInterface $document = null
+        protected PsrResponseInterface $psrResponse,
+        private ?DocumentInterface $document = null
     ) {
         $this->status = $psrResponse->getStatusCode();
         $this->headers = new KeyValueCollection();
@@ -29,9 +27,6 @@ class Response implements ResponseInterface
             }
             $this->headers->set($header, $value);
         }
-
-        $this->document = $document;
-        $this->psrResponse = $psrResponse;
     }
 
     public function status(): int
