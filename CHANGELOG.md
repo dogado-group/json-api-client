@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.1.0 - 2021-07-XX
+## v1.1.0 - 2021-07-10
 
 - drop support for php 7.4
 - some code optimizations
