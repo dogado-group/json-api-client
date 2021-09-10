@@ -110,7 +110,7 @@ class OAuth2AuthenticatorTest extends TestCase
 
         $request->expects(self::once())->method('withBody')->with($stream)->willReturnSelf();
 
-        $e = $this->createMock(Exception::class);
+        $e = new Exception($this->faker()->text());
         $this->httpClient->expects(self::once())->method('sendRequest')->with($request)->willThrowException($e);
 
         $this->expectExceptionObject(AuthenticationException::failed(null, $e));

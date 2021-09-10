@@ -12,6 +12,7 @@ jobs:
           - ubuntu-latest
         php:
           - 8.0
+          - 8.1
         dependency-version: [prefer-lowest, prefer-stable]
 
     name: P${{ matrix.php }} - ${{ matrix.dependency-version }}
