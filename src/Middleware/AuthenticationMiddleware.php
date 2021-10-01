@@ -6,12 +6,14 @@ namespace Dogado\JsonApi\Client\Middleware;
 
 use Dogado\JsonApi\Client\Model\BasicCredentials;
 use Dogado\JsonApi\Client\Model\OAuth2Credentials;
+use Dogado\JsonApi\Client\Model\QueryCredentials;
 use Dogado\JsonApi\Model\Request\RequestInterface;
 
 class AuthenticationMiddleware implements AuthenticationMiddlewareInterface
 {
     protected ?OAuth2Credentials $oauth2Credentials = null;
     protected ?BasicCredentials $basicCredentials = null;
+    protected ?QueryCredentials $queryCredentials = null;
 
     public function setOAuth2Credentials(OAuth2Credentials $oauth2Credentials): self
     {
@@ -22,6 +24,12 @@ class AuthenticationMiddleware implements AuthenticationMiddlewareInterface
     public function setBasicCredentials(BasicCredentials $basicCredentials): self
     {
         $this->basicCredentials = $basicCredentials;
+        return $this;
+    }
+
+    public function setQueryCredentials(QueryCredentials $queryCredentials): self
+    {
+        $this->queryCredentials = $queryCredentials;
         return $this;
     }
 
@@ -39,6 +47,10 @@ class AuthenticationMiddleware implements AuthenticationMiddlewareInterface
                    $this->basicCredentials->username . ':' . $this->basicCredentials->password
                ),
             ]);
+        }
+
+        if (null !== $this->queryCredentials) {
+            $request->customQueryParameters()->mergeCollection($this->queryCredentials);
         }
     }
 }

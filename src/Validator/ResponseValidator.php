@@ -65,10 +65,39 @@ class ResponseValidator
     /**
      * @throws ResponseValidationException
      */
+    public function assertResourcesMatchType(ResponseInterface $response, string $type): void
+    {
+        $this->assertDocument($response);
+
+        assert($response->document() instanceof DocumentInterface);
+        foreach ($response->document()->data()->all() as $key => $resource) {
+            if ($type !== $resource->type()) {
+                throw ResponseValidationException::typeMismatch($response, $type, $resource->type(), $key);
+            }
+        }
+    }
+
+    /**
+     * @throws ResponseValidationException
+     */
     public function assertScalarResultWithId(ResponseInterface $response, string $type): void
     {
         $this->assertDataNotEmpty($response);
         $this->assertResourcesMatchTypeAndContainIds($response, $type);
+
+        assert($response->document() instanceof DocumentInterface);
+        if (1 !== $response->document()->data()->count()) {
+            throw ResponseValidationException::scalarResultExpected($response, $response->document()->data()->count());
+        }
+    }
+
+    /**
+     * @throws ResponseValidationException
+     */
+    public function assertScalarResultWithoutId(ResponseInterface $response, string $type): void
+    {
+        $this->assertDataNotEmpty($response);
+        $this->assertResourcesMatchType($response, $type);
 
         assert($response->document() instanceof DocumentInterface);
         if (1 !== $response->document()->data()->count()) {

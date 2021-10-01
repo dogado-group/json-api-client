@@ -126,6 +126,30 @@ class ResponseValidatorTest extends TestCase
         $this->responseValidator->assertScalarResultWithId($response, $type);
     }
 
+    public function testAssertResourcesMatchType(): void
+    {
+        $type = $this->faker()->slug();
+        $response = $this->createResponse(new Document([new Resource(
+            $type
+        )]));
+        $this->responseValidator->assertResourcesMatchType($response, $type);
+        $this->assertTrue(true);
+    }
+
+    public function testAssertResourcesMatchTypeAndContainIdsThrowsException(): void
+    {
+        $expectedType = $this->faker()->slug();
+        $actualType = $this->faker()->slug();
+        $response = $this->createResponse(new Document([new Resource(
+            $actualType,
+            (string) $this->faker()->numberBetween()
+        )]));
+        $this->expectExceptionObject(
+            ResponseValidationException::typeMismatch($response, $expectedType, $actualType, 0)
+        );
+        $this->responseValidator->assertResourcesMatchType($response, $expectedType);
+    }
+
     private function createResponse(?DocumentInterface $document = null): ResponseInterface
     {
         $response = $this->createMock(\Psr\Http\Message\ResponseInterface::class);
