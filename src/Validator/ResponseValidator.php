@@ -80,11 +80,8 @@ class ResponseValidator
     /**
      * @throws ResponseValidationException
      */
-    public function assertScalarResultWithId(ResponseInterface $response, string $type): void
+    public function assertScalarResult(ResponseInterface $response): void
     {
-        $this->assertDataNotEmpty($response);
-        $this->assertResourcesMatchTypeAndContainIds($response, $type);
-
         assert($response->document() instanceof DocumentInterface);
         if (1 !== $response->document()->data()->count()) {
             throw ResponseValidationException::scalarResultExpected($response, $response->document()->data()->count());
@@ -94,14 +91,34 @@ class ResponseValidator
     /**
      * @throws ResponseValidationException
      */
+    public function assertScalarResultWithId(ResponseInterface $response, string $type): void
+    {
+        $this->assertDataNotEmpty($response);
+        $this->assertResourcesMatchTypeAndContainIds($response, $type);
+        $this->assertScalarResult($response);
+    }
+
+    /**
+     * @throws ResponseValidationException
+     */
     public function assertScalarResultWithoutId(ResponseInterface $response, string $type): void
     {
         $this->assertDataNotEmpty($response);
         $this->assertResourcesMatchType($response, $type);
+        $this->assertScalarResult($response);
 
-        assert($response->document() instanceof DocumentInterface);
-        if (1 !== $response->document()->data()->count()) {
-            throw ResponseValidationException::scalarResultExpected($response, $response->document()->data()->count());
+        if (!empty($response->document()->data()->first()->id())) {
+            throw ResponseValidationException::resourceIdFound($response);
         }
+    }
+
+    /**
+     * @throws ResponseValidationException
+     */
+    public function assertScalarResultWithOptionalId(ResponseInterface $response, string $type): void
+    {
+        $this->assertDataNotEmpty($response);
+        $this->assertResourcesMatchType($response, $type);
+        $this->assertScalarResult($response);
     }
 }

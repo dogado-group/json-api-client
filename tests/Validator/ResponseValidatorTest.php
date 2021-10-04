@@ -150,6 +150,41 @@ class ResponseValidatorTest extends TestCase
         $this->responseValidator->assertResourcesMatchType($response, $expectedType);
     }
 
+    public function testAssertScalarResultWithoutId(): void
+    {
+        $type = $this->faker()->slug();
+        $response = $this->createResponse(new Document([new Resource($type)]));
+        $this->responseValidator->assertScalarResultWithoutId($response, $type);
+        $this->assertTrue(true);
+    }
+
+    public function testAssertScalarResultWithoutIdThrowsException(): void
+    {
+        $type = $this->faker()->slug();
+        $response = $this->createResponse(new Document([new Resource(
+            $type,
+            (string) $this->faker()->numberBetween()
+        )]));
+        $this->expectExceptionObject(
+            ResponseValidationException::resourceIdFound($response)
+        );
+        $this->responseValidator->assertScalarResultWithoutId($response, $type);
+    }
+
+    public function testAssertScalarResultWithOptionalId(): void
+    {
+        $type = $this->faker()->slug();
+        $resources = [
+            new Resource($type, (string) $this->faker()->numberBetween()),
+            new Resource($type),
+        ];
+        foreach ($resources as $resource) {
+            $response = $this->createResponse(new Document([$resource]));
+            $this->responseValidator->assertScalarResultWithOptionalId($response, $type);
+            $this->assertTrue(true);
+        }
+    }
+
     private function createResponse(?DocumentInterface $document = null): ResponseInterface
     {
         $response = $this->createMock(\Psr\Http\Message\ResponseInterface::class);
