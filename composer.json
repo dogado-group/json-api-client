@@ -11,7 +11,7 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
-        "dogado/json-api-common": "^2.0",
+        "dogado/json-api-common": "^3.0",
         "psr/http-factory": "^1.0",
         "psr/http-client": "^1.0"
     },
@@ -39,7 +39,10 @@
             "@cs"
         ],
         "unit": "phpunit",
-        "coverage": "phpunit --log-junit build/logs/unitreport.xml --coverage-html build/coverage",
+        "coverage": [
+            "@putenv XDEBUG_MODE=coverage",
+            "phpunit --log-junit build/logs/unitreport.xml --coverage-html build/coverage"
+        ],
         "stan": "phpstan analyse",
         "cs": "phpcs --standard=phpcs.xml"
     },

@@ -16,6 +16,7 @@ class ResponseValidationException extends Exception
     public const CODE_TYPE_MISMATCH = 103;
     public const CODE_RESOURCE_ID_EMPTY = 104;
     public const CODE_SCALAR_RESULT_EXPECTED = 105;
+    public const CODE_RESOURCE_ID_FOUND = 106;
 
     protected ResponseInterface $response;
 
@@ -74,6 +75,17 @@ class ResponseValidationException extends Exception
                 $resourceItem
             ),
             self::CODE_RESOURCE_ID_EMPTY,
+            $response
+        );
+    }
+
+    public static function resourceIdFound(ResponseInterface $response): self
+    {
+        return new self(
+            sprintf(
+                'JSON API response contains resources with IDs, while none is expected'
+            ),
+            self::CODE_RESOURCE_ID_FOUND,
             $response
         );
     }
