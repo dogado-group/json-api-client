@@ -8,5 +8,4 @@ use Dogado\JsonApi\Support\Collection\KeyValueCollection;
 
 class QueryCredentials extends KeyValueCollection
 {
-
 }
