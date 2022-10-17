@@ -107,7 +107,7 @@ class ResponseValidator
         $this->assertResourcesMatchType($response, $type);
         $this->assertScalarResult($response);
 
-        if (!empty($response->document()->data()->first()->id())) {
+        if (!empty($response->document()?->data()->first()->id())) {
             throw ResponseValidationException::resourceIdFound($response);
         }
     }
